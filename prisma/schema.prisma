@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// Prisma schema for Survey Application
+
+// Survey Question Model
+model SurveyQuestion {
+    id          Int              @id @default(autoincrement())
+    text        String           @unique
+    description String?
+    category    String?
+    options     SurveyOption[]
+    responses   SurveyResponse[]
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+}
+
+// Survey Option Model (for each possible answer)
+model SurveyOption {
+    id         Int              @id @default(autoincrement())
+    text       String
+    question   SurveyQuestion   @relation(fields: [questionId], references: [id])
+    questionId Int
+    responses  SurveyResponse[]
+}
+
+// Survey Response Model
+model SurveyResponse {
+    id         String         @id @default(uuid())
+    question   SurveyQuestion @relation(fields: [questionId], references: [id])
+    questionId Int
+    option     SurveyOption   @relation(fields: [optionId], references: [id])
+    optionId   Int
+
+    // Anonymized tracking
+    respondentHash String // Hash of IP or cookie for tracking unique responses
+    timestamp      DateTime @default(now())
+
+    // Optional metadata for analysis
+    metadata Json?
+}
+
+// Audit Log for tracking survey interactions
+model SurveyAuditLog {
+    id             String   @id @default(uuid())
+    action         String // e.g., "view", "respond", "modify"
+    respondentHash String // Same hash used in SurveyResponse
+    timestamp      DateTime @default(now())
+    metadata       Json?
+}
