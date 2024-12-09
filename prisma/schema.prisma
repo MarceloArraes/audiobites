@@ -18,6 +18,7 @@ model SurveyQuestion {
     text        String           @unique
     description String?
     category    String?
+    contentUrl  String?
     options     SurveyOption[]
     responses   SurveyResponse[]
     createdAt   DateTime         @default(now())

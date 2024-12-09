@@ -21,8 +21,9 @@ export const SurveyComponent2 = () => {
   //   const { data: responsesToQuestions } =
   //     api.question.getQuestionResponseStatistics.useQuery({questionId});
   const [answers, setAnswers] = useState<number[]>(
-    new Array(questions?.length ?? 1).fill(null),
+    new Array(questions?.length ?? 2).fill(null),
   );
+  console.log("initial answers", answers);
   const getUserId = () => {
     let userId = localStorage.getItem("userId");
     if (!userId) {
@@ -43,12 +44,13 @@ export const SurveyComponent2 = () => {
     // if (questionIndex && answer) {
     const newAnswers = [...answers];
     newAnswers[questionId] = optionId;
-    // console.log("answer", answer, questionIndex);
+    console.log("questionId, optionId", questionId, optionId);
     // console.log(
     //   "questions?.[questionIndex]?.options?.[answer]?.id",
     //   questions?.[questionIndex]?.options?.[answer],
     // );
     // questions[questionIndex] received the answear = question.option.optionId = answer;
+    console.log("newAnswers", newAnswers);
     setAnswers(newAnswers);
     await handleSubmitResponse(questionId ?? null, optionId ?? null);
     // }
@@ -89,7 +91,7 @@ export const SurveyComponent2 = () => {
                 // onValueChange={(value: string) =>
                 //   handleAnswer(index, parseInt(value))
                 // }
-                value={answers[index]?.toString()}
+                value={answers[index + 1]?.toString()}
               >
                 {question.options.map((option, optionIndex) => (
                   <div
@@ -107,7 +109,9 @@ export const SurveyComponent2 = () => {
                   </div>
                 ))}
               </RadioGroup>
-              {answers[index] && <AnswearStatistic questionId={question.id} />}
+              {answers[index + 1] && (
+                <AnswearStatistic questionId={question.id} />
+              )}
             </div>
           ))}
         </CardContent>

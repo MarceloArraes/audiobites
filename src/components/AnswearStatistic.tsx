@@ -57,7 +57,7 @@ responsesToQuestions: {
 
   return (
     <div>
-      {responsesToQuestions?.optionsBreakdown?.map((option, index) => {
+      {responsesToQuestions?.optionsBreakdown?.map((option, _index) => {
         return (
           <div key={option.optionId} className="mb-2">
             <div className="flex justify-between text-sm">
