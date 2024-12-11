@@ -70,11 +70,13 @@ export const questionRouter = createTRPCRouter({
     .input(z.object({ questionId: z.number() }))
     .query(async ({ ctx, input }) => {
       // Get total responses for the question
-      const totalResponses = await ctx.db.surveyResponse.count({
+
+      // Fetch all options for the question
+      const allOptions = await ctx.db.surveyOption.findMany({
         where: { questionId: input.questionId },
       });
 
-      // Get response distribution across options
+      // Fetch vote counts for options with responses
       const responseDistribution = await ctx.db.surveyResponse.groupBy({
         by: ["optionId"],
         where: { questionId: input.questionId },
@@ -83,24 +85,33 @@ export const questionRouter = createTRPCRouter({
         },
       });
 
-      // Fetch options to get their text
-      const optionsWithCount = await Promise.all(
-        responseDistribution.map(async (distribution) => {
-          const option = await ctx.db.surveyOption.findUnique({
-            where: { id: distribution.optionId },
-          });
-
-          return {
-            optionId: distribution.optionId,
-            optionText: option?.text ?? "Unknown",
-            count: distribution._count.optionId,
-            percentage: (
-              (distribution._count.optionId / totalResponses) *
-              100
-            ).toFixed(2),
-          };
-        }),
+      // Create a map of counts for easier access
+      const countsMap = new Map(
+        responseDistribution.map((distribution) => [
+          distribution.optionId,
+          distribution._count.optionId,
+        ]),
       );
+
+      // Calculate total responses for percentage calculation
+      const totalResponses = Array.from(countsMap.values()).reduce(
+        (sum, count) => sum + count,
+        0,
+      );
+
+      // Combine all options with their counts and percentages
+      const optionsWithCount = allOptions.map((option) => {
+        const count = countsMap.get(option.id) ?? 0; // Default to 0 if no votes
+        return {
+          optionId: option.id,
+          correctOption: option?.correct ? true : false,
+          optionText: option.text,
+          count,
+          percentage: totalResponses
+            ? ((count / totalResponses) * 100).toFixed(2)
+            : "0.00", // Avoid division by zero
+        };
+      });
 
       return {
         totalResponses,

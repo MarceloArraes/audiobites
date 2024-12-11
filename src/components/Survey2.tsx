@@ -78,19 +78,28 @@ export const SurveyComponent2 = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-600 py-12">
       <Card className="w-[600px]">
         <CardHeader>
-          <CardTitle>Pesquisa Política</CardTitle>
-          <CardDescription>
-            Responda as perguntas abaixo e veja os resultados imediatamente
-          </CardDescription>
+          <CardTitle>Audio Bites</CardTitle>
+          <CardDescription>Can you guess what is this sound?</CardDescription>
         </CardHeader>
         <CardContent>
           {questions?.map((question, index) => (
             <div key={question.id} className="mb-8">
-              <p className="mb-2 text-lg font-semibold">{question.text}</p>
+              {/* <p className="mb-2 text-lg font-semibold">{question.text}</p> */}
+              {/* <audio src="/sounds/door-opening-and-closing-18398.mp3"></audio> */}
+              <audio controls>
+                {/* <source src="horse.ogg" type="audio/ogg" /> */}
+                <source
+                  // src="/sounds/door-opening-and-closing-18398.mp3"
+                  src={question.contentUrl ?? ""}
+                  type="audio/mp3"
+                />
+                Your browser does not support the audio element.
+              </audio>
               <RadioGroup
                 // onValueChange={(value: string) =>
                 //   handleAnswer(index, parseInt(value))
                 // }
+                className="p-4 pl-5"
                 value={answers[index + 1]?.toString()}
               >
                 {question.options.map((option, optionIndex) => (
@@ -109,15 +118,17 @@ export const SurveyComponent2 = () => {
                   </div>
                 ))}
               </RadioGroup>
-              {answers[index + 1] && (
-                <AnswearStatistic questionId={question.id} />
-              )}
+              {/* {answers[index + 1] != null && <div>Answered</div>} */}
+              <AnswearStatistic
+                questionId={question.id}
+                answered={answers[index + 1] != null}
+              />
             </div>
           ))}
         </CardContent>
-        <Button type="button" onClick={() => handleSubmitResponse(1, 1)}>
+        {/* <Button type="button" onClick={() => handleSubmitResponse(1, 1)}>
           submit
-        </Button>
+        </Button> */}
       </Card>
     </div>
   );
