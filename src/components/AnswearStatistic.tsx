@@ -1,12 +1,16 @@
 "use client";
 import { api } from "@/trpc/react";
 import { Progress } from "./ui/progress";
-import { useMemo } from "react";
 
 interface AnswearStatisticProps {
   questionId: number;
   answered: number | undefined;
-  newOptionsArray: number[];
+  newOptionsArray: {
+    questionId: number;
+    id: number;
+    text: string;
+    correct: boolean;
+  }[];
 }
 
 export const AnswearStatistic = ({
@@ -67,7 +71,7 @@ export const AnswearStatistic = ({
                     <span className="ml-auto">{sortedOption?.percentage}%</span>
                   </div>
                   <Progress
-                    value={parseFloat(sortedOption?.percentage)}
+                    value={parseFloat(sortedOption?.percentage ?? "0")}
                     correctOption={false}
                     className="h-2"
                   />
