@@ -40,9 +40,9 @@ async function main() {
       category: "Sound",
       contentUrl: "sounds/empty-mug-table-foley-wobble-3-239012.mp3",
       options: [
-        { text: "Empty mug wobbling on a table", correct: true },
         { text: "Glass cup rolling on its side", correct: false },
         { text: "Ceramic plate sliding", correct: false },
+        { text: "Empty mug wobbling on a table", correct: true },
       ],
     },
     {
@@ -51,8 +51,8 @@ async function main() {
       category: "Sound",
       contentUrl: "sounds/footsteps-on-nature-trail-246038.mp3",
       options: [
-        { text: "Footsteps on a nature trail", correct: true },
         { text: "Leaves rustling in wind", correct: false },
+        { text: "Footsteps on a nature trail", correct: true },
         { text: "Branches snapping", correct: false },
       ],
     },
@@ -62,9 +62,9 @@ async function main() {
       category: "Sound",
       contentUrl: "sounds/hand-saw-cutting-tree-3-230193.mp3",
       options: [
-        { text: "Hand saw cutting a tree", correct: true },
         { text: "Axe chopping wood", correct: false },
         { text: "Electric hedge trimmer", correct: false },
+        { text: "Hand saw cutting a tree", correct: true },
       ],
     },
     {
@@ -84,8 +84,8 @@ async function main() {
       category: "Sound",
       contentUrl: "sounds/large-underwater-explosion-190270.mp3",
       options: [
-        { text: "Large underwater explosion", correct: true },
         { text: "Whale song underwater", correct: false },
+        { text: "Large underwater explosion", correct: true },
         { text: "Submarine sonar ping", correct: false },
       ],
     },
@@ -109,17 +109,6 @@ async function main() {
         { text: "Coffee being poured", correct: true },
         { text: "Water from a kettle", correct: false },
         { text: "Wine being poured", correct: false },
-      ],
-    },
-    {
-      text: "What is the repeated sound?",
-      description: "Identifying the writing sound (repeated)",
-      category: "Sound",
-      contentUrl: "sounds/pencil-write-desk-paper-loop-3-215731.mp3",
-      options: [
-        { text: "Pencil writing on desk paper", correct: true },
-        { text: "Pages turning in a book", correct: false },
-        { text: "Marker drawing on paper", correct: false },
       ],
     },
   ];
