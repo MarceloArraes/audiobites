@@ -22,7 +22,7 @@ export const SurveyComponent2 = () => {
   console.log("questions", questions);
   //   console.log("responsesToQuestions", responsesToQuestions);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-600 py-12">
+    <div className="flex min-h-screen items-center justify-center py-12">
       <Card className="md:w-[600px]">
         <CardHeader>
           <CardTitle>Audio Bites</CardTitle>
